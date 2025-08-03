@@ -49,10 +49,10 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
-    return () => {
-      dispatch(clearErrors());
-    };
+    dispatch(clearErrors());
   }, [dispatch]);
+
+  console.log(registrationError);
 
   return (
     <Container className="register-area">
