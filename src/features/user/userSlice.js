@@ -11,6 +11,7 @@ export const loginWithEmail = createAsyncThunk(
       const response = await api.post("/auth/login", { email, password });
       //성공
       //LoginPage
+      sessionStorage.setItem("token", response.data.token);
       return response.data;
     } catch (error) {
       //실패
