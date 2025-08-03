@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Form, Button, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 
 import "./style/register.style.css";
-
-import { registerUser } from "../../features/user/userSlice";
-
+import { registerUser, clearErrors } from "../../features/user/userSlice";
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -49,6 +47,10 @@ const RegisterPage = () => {
       setFormData({ ...formData, [id]: value });
     }
   };
+
+  useEffect(() => {
+    dispatch(clearErrors());
+  }, [dispatch]);
 
   return (
     <Container className="register-area">
