@@ -48,6 +48,7 @@ export const registerUser = createAsyncThunk(
       return rejectWithValue(
         error.response?.data?.error || "회원가입 중 오류가 발생했습니다."
       );
+    }
   }
 );
 
