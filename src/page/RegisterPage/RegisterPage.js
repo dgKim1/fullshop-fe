@@ -49,7 +49,9 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
-    dispatch(clearErrors());
+    return () => {
+      dispatch(clearErrors());
+    };
   }, [dispatch]);
 
   return (
