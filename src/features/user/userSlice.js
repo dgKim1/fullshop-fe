@@ -45,7 +45,7 @@ export const registerUser = createAsyncThunk(
       );
 
       //2.에러값을 저장한다
-      return rejectWithValue(error.response.data.error);
+      return rejectWithValue(error.error);
     }
   }
 );
