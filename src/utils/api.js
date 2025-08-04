@@ -7,6 +7,7 @@ const api = axios.create({
       : "/api", // Netlify 프록시 규칙을 거쳐 Beanstalk으로 전달
   headers: {
     "Content-Type": "application/json",
+    authorization: `Bearer ${sessionStorage.getItem("token")}`,
   },
 });
 
