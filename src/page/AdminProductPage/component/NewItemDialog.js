@@ -75,6 +75,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
     console.log("formatdatatt", totalStock);
     if (mode === "new") {
       //새 상품 만들기
+      dispatch(createProduct({ ...formData, stock: totalStock }));
     } else {
       // 상품 수정하기
     }
