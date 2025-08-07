@@ -16,12 +16,15 @@ const AdminProductPage = () => {
   const navigate = useNavigate();
   const [query] = useSearchParams();
   const dispatch = useDispatch();
-  const { productList, totalPageNum } = useSelector((state) => state.product);
+  const productList = useSelector((state) => state.product.productList);
+  const totalPageNum = useSelector((state) => state.product.totalPageNum);
   const [showDialog, setShowDialog] = useState(false);
   const [searchQuery, setSearchQuery] = useState({
     page: query.get("page") || 1,
     name: query.get("name") || "",
   }); //검색 조건들을 저장하는 객체
+
+  console.log("productList", productList);
 
   const [mode, setMode] = useState("new");
 
@@ -38,20 +41,29 @@ const AdminProductPage = () => {
 
   //상품리스트 가져오기 (url쿼리 맞춰서)
   useEffect(() => {
-    dispatch(getProductList());
-  }, []);
+    dispatch(getProductList({ ...searchQuery }));
+  }, [query]);
 
   useEffect(() => {
     //검색어나 페이지가 바뀌면 url바꿔주기 (검색어또는 페이지가 바뀜 => url 바꿔줌=> url쿼리 읽어옴=> 이 쿼리값 맞춰서  상품리스트 가져오기)
+    if (searchQuery.name === "") {
+      delete searchQuery.name;
+    }
+    const params = new URLSearchParams(searchQuery);
+    const query = params.toString();
+    navigate("?" + query);
   }, [searchQuery]);
 
   const deleteItem = (id) => {
-    //아이템 삭제하가ㅣ
+    dispatch(deleteProduct({ id }));
   };
 
   const openEditForm = (product) => {
     //edit모드로 설정하고
     // 아이템 수정다이얼로그 열어주기
+    setMode("edit");
+    dispatch(setSelectedProduct(product));
+    setShowDialog(true);
   };
 
   const handleClickNewItem = () => {
@@ -63,7 +75,12 @@ const AdminProductPage = () => {
 
   const handlePageClick = ({ selected }) => {
     //  쿼리에 페이지값 바꿔주기
+    setSearchQuery({ ...searchQuery, page: selected + 1 });
   };
+
+  //searchbox에서 검색어를 읽어온다 => 엔터를 치면 => searchQuery 객체가 업데이트가 됨 {name: 스트레이트 팬츠}
+  //=>searchQuery객체 안에 아이템 기준으로 url을 새로 생성해서 호출 & name = "스트레이트 팬츠"
+  //=>url쿼리 읽어오기 => url쿼리 기준으로 BE에 검색조건과 호출한다
 
   return (
     <div className="locate-center">
@@ -90,7 +107,7 @@ const AdminProductPage = () => {
           nextLabel="next >"
           onPageChange={handlePageClick}
           pageRangeDisplayed={5}
-          pageCount={100}
+          pageCount={totalPageNum}
           forcePage={searchQuery.page - 1}
           previousLabel="< previous"
           renderOnZeroPageCount={null}

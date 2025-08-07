@@ -17,6 +17,8 @@ const ProductDetail = () => {
   const user = useSelector((state) => state.user.user);
   const navigate = useNavigate();
 
+  console.log(selectedProduct);
+
   const addItemToCart = () => {
     //사이즈를 아직 선택안했다면 에러
     // 아직 로그인을 안한유저라면 로그인페이지로
@@ -49,11 +51,11 @@ const ProductDetail = () => {
           <img src={selectedProduct.image} className="w-100" alt="image" />
         </Col>
         <Col className="product-info-area" sm={6}>
-          <div className="product-info">{selectedProduct.name}</div>
+          <div className="product-info">{selectedProduct?.name}</div>
           <div className="product-info">
-            ₩ {currencyFormat(selectedProduct.price)}
+            ₩ {currencyFormat(selectedProduct?.price)}
           </div>
-          <div className="product-info">{selectedProduct.description}</div>
+          <div className="product-info">{selectedProduct?.description}</div>
 
           <Dropdown
             className="drop-down size-drop-down"
