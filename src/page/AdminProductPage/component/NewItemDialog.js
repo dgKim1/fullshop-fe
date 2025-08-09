@@ -84,6 +84,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
       dispatch(
         editProduct({ ...formData, stock: totalStock, id: selectedProduct._id })
       );
+      handleClose();
     }
   };
 
@@ -243,6 +244,7 @@ const NewItemDialog = ({ mode, showDialog, setShowDialog }) => {
                     }
                     type="number"
                     placeholder="number of stock"
+                    min={0}
                     value={item[1]}
                     required
                   />
