@@ -9,10 +9,6 @@ export const getProductList = createAsyncThunk(
     try {
       const response = await api.get("/product", { params: { ...query } });
       console.log("getProductList", response);
-      if (response.status !== 200)
-        throw new Error(
-          "상품 생성 중 오류 발생. 중복된 필드명이 없는지 확인해주세요"
-        );
       return response.data;
     } catch (error) {
       rejectWithValue(error.error);
@@ -25,7 +21,6 @@ export const getProductDetail = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await api.get(`/product/${id}`);
-      if (response.status !== 200) throw new Error(response.error);
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.error);
@@ -38,7 +33,6 @@ export const createProduct = createAsyncThunk(
   async (formData, { dispatch, rejectWithValue }) => {
     try {
       const response = await api.post("/product", formData);
-      if (response.status != 200) throw new Error(response.error);
       dispatch(
         showToastMessage({ message: "상품 생성 완료", status: "success" })
       );
@@ -55,7 +49,6 @@ export const editProduct = createAsyncThunk(
   async ({ id, ...formData }, { dispatch, rejectWithValue }) => {
     try {
       const response = await api.put(`/product/${id}`, formData);
-      if (response.status !== 200) throw new Error("상품 수정 실패");
       dispatch(getProductList({ page: 1 }));
       return response.data.data;
     } catch (error) {
@@ -69,7 +62,6 @@ export const deleteProduct = createAsyncThunk(
   async ({ id }, { dispatch, rejectWithValue }) => {
     try {
       const response = await api.delete(`/product/${id}`);
-      if (response.status !== 200) throw new Error("상품 삭제 실패");
       dispatch(
         showToastMessage({ message: "상품 삭제 완료", status: "success" })
       );
