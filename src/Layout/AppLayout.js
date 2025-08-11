@@ -21,6 +21,7 @@ const AppLayout = ({ children }) => {
       dispatch(getCartQty());
     }
   }, [user]);
+
   return (
     <div>
       <ToastMessage />
